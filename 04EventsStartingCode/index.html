@@ -18,22 +18,23 @@
     </header>
     <section id="events">
       <h2>Events in Action</h2>
-      <button @click.right="add( 5 )">Add 5</button>
+      <button @click="add( 5 )">Add 5</button>
       <button @click="reduce( 5 ) ">Subtract 5</button>
+
+      <!-- counter의 값이 변경되어도 v-once 사용한 값은 업데이트되지 않음 -->
+      <!-- <p v-once>Starting Counter: {{ counter }}</p> -->
       <p>Result: {{ counter }}</p>
 
       <!-- 사용자가 입력란에 이름을 입력할 수 있게 구현 -->
-      <input type="text" 
-             @input="setName( $event, 'Jeon' )"
-             @keyup.enter="confirmInput"
-      >
-      <p>Your name : {{ confirmedName }}</p>
+      <input type="text" v-model="name">
+      <button @click="resetInput">Reset Input</button>
+      <p>Your name : {{ fullname }}</p>
 
       <!-- 이벤트 수식어 -->
-      <form @submit.prevent="submitForm">
+      <!-- <form @submit.prevent="submitForm">
         <input type="text">
         <button>Sign Up!</button>
-      </form>
+      </form> -->
 
     </section>
   </body>

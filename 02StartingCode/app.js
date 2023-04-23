@@ -6,7 +6,7 @@ const app = Vue.createApp({
         return {
             courseGoalA : 'Finish the course and learn Vue!',
             courseGoalB : '<span>Master Vue and build amazing apps!</span>',
-            vueLink    : 'https://vuejs.org/'
+            vueLink     : 'https://vuejs.org/'
 
         } // 항상 객체를 반환한다. 
     },
