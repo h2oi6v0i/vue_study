@@ -7,6 +7,12 @@ const app = Vue.createApp({
         }
     },
 
+    computed: {
+        boxAClasses() {
+            return {'is-active': this.boxASelected};
+        }
+    },
+
     methods: {
         /** 토글 */
         boxSelected( box ) {
@@ -22,9 +28,3 @@ const app = Vue.createApp({
 });
 
 app.mount( '#styling' );
-
-/**
- * HTML 설명
- * 해당 프로퍼티 이름은 CSS 클래스를 반영하고
- * 그 프로퍼티의 값은 true/false를 판단하여 class의 추가 여부를 보여준다.
- */
