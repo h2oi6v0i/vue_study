@@ -17,14 +17,25 @@
       <h1>Vue Dynamic Styling</h1>
     </header>
     <section id="styling">
-      <!-- 'border-color' 따옴표 안에 넣어서 이렇게도 쓸 수 있음 -->
-      <div class="demo" 
-           :style="{ borderColor: boxASelected ? 'red' : '#CCC' }"
+      <!-- .demo는 항상 존재하고, boxASelected가 true일 때 .is-active 추가됨 (- 들어가면 따옴표 안에 써줘야 함) -->
+      <!-- <div :class="{demo: true, 'is-active': boxASelected}"
+           @click="boxSelected('A')"
+      > -->
+      <div class="demo"
+           :class="{'is-active': boxASelected}"
            @click="boxSelected('A')"
       >
       </div>
-      <div class="demo" @click="boxSelected('B')"></div>
-      <div class="demo" @click="boxSelected('C')"></div>
+      <div class="demo"
+           :class="{'is-active': boxBSelected}"
+           @click="boxSelected('B')"
+      >
+      </div>
+      <div class="demo"
+      :class="{'is-active': boxCSelected}"
+      @click="boxSelected('C')"
+ >
+ </div>
     </section>
   </body>
 </html>
