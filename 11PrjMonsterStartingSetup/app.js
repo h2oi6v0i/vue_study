@@ -9,21 +9,31 @@ const app = Vue.createApp({
             monsterHealth : 100,
             currentRound  : 0,
             winner        : null, // JS에서 false로 취급함
+            logMessages   : [],
+
         }
     },
 
     computed: {
         monsterBarStyles() {
+            if ( this.monsterHealth < 0 ) {
+                return { width : '0%' };
+            }
+
             return { width : this.monsterHealth + '%' };
         },
 
         playerBarStyles() {
+            if ( this.playerHealth < 0 ) {
+                return { width : '0%' };
+            }
+
             return { width : this.playerHealth + '%' };
         },
 
         mayUseSpecialAttack() {
             return this.currentRound % 3 !== 0;
-        }
+        },
     },
 
     /**
@@ -53,12 +63,25 @@ const app = Vue.createApp({
 
     methods: {
         /**
+         * 새 게임 시작하기
+         */
+        startGame() {
+            /** 이 게임과 관련된 모든 변수 초기화하기 */
+            this.playerHealth  = 100;
+            this.monsterHealth = 100;
+            this.winner        = null;
+            this.currentRound  = 0;
+            this.logMessages   = [];
+        },
+
+        /**
          * 몬스터 공격하기
          */
         attackMonster() {
             this.currentRound++;
             const attackValue = getRandomValue( 5, 12 );
             this.monsterHealth -= attackValue; 
+            this.addLogMessage( 'player', 'attack', attackValue );
 
             /**
              * attackMonster가 발생하면 바로 attackPlayer가 트리거 되어야 한다.
@@ -73,6 +96,8 @@ const app = Vue.createApp({
         attackPlayer() {
             const attackValue = getRandomValue( 8, 15 );
             this.playerHealth -= attackValue;
+            this.addLogMessage( 'monster', 'attack', attackValue );
+
         },
 
         /**
@@ -83,7 +108,8 @@ const app = Vue.createApp({
         specialAttackMonster() {
             this.currentRound++;
             const attackValue = getRandomValue( 10, 25 );
-            this.monsterHealth -= attackValue; 
+            this.monsterHealth -= attackValue;
+            this.addLogMessage( 'player', 'attack', attackValue );
             this.attackPlayer();
         },
 
@@ -104,21 +130,47 @@ const app = Vue.createApp({
                 this.playerHealth += healValue;
             }
 
+            this.addLogMessage( 'player', 'heal', healValue );
+
             this.attackPlayer();
+        },
+
+        surrender() {
+            this.winner = 'monster';
+        },
+
+        /**
+         * 전투 기록 남기기
+         * 1. 누가 했는지
+         * 2. 어떤 동작을 했는지
+         * 3. 피해/회복 수치
+         * - 로그 메시지 배열은 변경이 가능하며 Vue가 변경 사항을 인식하고 변경 시 UI를 업데이트할 수 있도록 해야 한다.
+         * - 이제까지는 목록, 배열, v-for 작업할 때 문자열로 구성된 배열을 사용했지만,
+         *   지금 구현하려는 기능에는 중요한 정보가 세 개나 있기 때문에 배열에 객체를 추가한다.
+         */
+        addLogMessage( who, what, value ) {
+            this.logMessages.unshift({
+                actionBy    : who,
+                actionType  : what,
+                actionValue : value
+
+            })
         }
     },
 });
 
 app.mount( '#game' );
 
- /**
-  * this 쓰는 이유
-  * 데이터가 통합되어서 내부에서 관리되는 전역 객체가 되기 때문이다.
-  * methods, computed도 마찬가지이다.
-  */
-
-      /**
-             * 피해량은 최소 5 최대 12
-             * Math.floor() : 소수점 아래 숫자 버림
-             * 마지막에 최솟값 다시 더하면 5~12 사이 임의의 숫자 산출 가능
-             */
+/**
+ * this 쓰는 이유
+ * 데이터가 통합되어서 내부에서 관리되는 전역 객체가 되기 때문이다.
+ * methods, computed도 마찬가지이다.
+ * 
+ * 피해량은 최소 5 최대 12
+ * Math.floor() : 소수점 아래 숫자 버림
+ * 마지막에 최솟값 다시 더하면 5~12 사이 임의의 숫자 산출 가능
+ * 
+ * unshift는 push와 같은 역할을 하지만
+ * push는 배열의 맨 마지막에 새로운 항목을 추가하고 
+ * unshift는 배열의 맨 처음에 추가한다.
+ */
