@@ -61,6 +61,26 @@ const app = Vue.createApp({
             const attackValue = getRandomValue( 10, 25 );
             this.monsterHealth -= attackValue; 
             this.attackPlayer();
+        },
+
+        /**
+         * 플레이어 체력 회복
+         * - 회복 기능 사용도 게임의 턴으로 집계된다.
+         * - 회복한 경우, 몬스터가 플레이어 공격한다.
+         */
+        healPlayer() {
+            this.currentRound++;
+
+            const healValue = getRandomValue( 8, 20 );
+
+            /** 100까지만 체력 회복 가능 */
+            if ( this.playerHealth + healValue > 100 ) {
+                this.playerHealth = 100;
+            } else {
+                this.playerHealth += healValue;
+            }
+
+            this.attackPlayer();
         }
     },
 });
