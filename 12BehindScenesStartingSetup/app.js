@@ -12,7 +12,11 @@ const app = Vue.createApp({
     },
 
     setText() {
-      this.message = this.currentUserInput;
+      // this.message = this.currentUserInput;
+
+      /** $refs는 key : value로 이루어진 객체이며, key는 템플릿에서 설정한 ref 식별자이다. */
+      this.message = this.$refs.userText.value;
+      // console.log( this.$refs.userText ); <input type="text">
     },
   },
 });
