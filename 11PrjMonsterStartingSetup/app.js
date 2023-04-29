@@ -8,6 +8,7 @@ const app = Vue.createApp({
             playerHealth  : 100,
             monsterHealth : 100,
             currentRound  : 0,
+            winner        : null, // JS에서 false로 취급함
         }
     },
 
@@ -25,6 +26,30 @@ const app = Vue.createApp({
         }
     },
 
+    /**
+     * 이렇게 검사만 하는 건 소용없고, 화면에 반영할 수 있게 바꿔야 한다.
+     * -> data()에 담기!
+     */
+    watch: {
+        /** data()의 playerHealth를 감시 */
+        playerHealth( value ) {
+            if ( value <= 0 && this.monsterHealth <= 0 ) {
+                this.winner = 'draw';
+            } else if ( value <= 0 ) {
+                this.winner = 'monster';
+            }
+        },
+
+        /** data()의 monsterHealth 감시 */
+        monsterHealth( value ) {
+            if ( value <= 0 && this.playerHealth <= 0 ) {
+                this.winner = 'draw';
+            } else if ( value <= 0 ) {
+                this.winner = 'player';
+            }
+        },
+    },
+
 
     methods: {
         /**
@@ -32,15 +57,14 @@ const app = Vue.createApp({
          */
         attackMonster() {
             this.currentRound++;
-            /**
-             * 피해량은 최소 5 최대 12
-             * Math.floor() : 소수점 아래 숫자 버림
-             * 마지막에 최솟값 다시 더하면 5~12 사이 임의의 숫자 산출 가능
-             */
             const attackValue = getRandomValue( 5, 12 );
             this.monsterHealth -= attackValue; 
-            /** attackMonster가 발생하면 바로 attackPlayer가 트리거 되어야 한다. */
-            this.attackPlayer(); // 모든 methods를 다 연결해야하는 건 아니라는 걸 배웠다.
+
+            /**
+             * attackMonster가 발생하면 바로 attackPlayer가 트리거 되어야 한다.
+             * 모든 methods를 다 HTML에 연결해야하는 건 아니다!
+             */
+            this.attackPlayer();
         },
 
         /**
@@ -92,3 +116,9 @@ app.mount( '#game' );
   * 데이터가 통합되어서 내부에서 관리되는 전역 객체가 되기 때문이다.
   * methods, computed도 마찬가지이다.
   */
+
+      /**
+             * 피해량은 최소 5 최대 12
+             * Math.floor() : 소수점 아래 숫자 버림
+             * 마지막에 최솟값 다시 더하면 5~12 사이 임의의 숫자 산출 가능
+             */
