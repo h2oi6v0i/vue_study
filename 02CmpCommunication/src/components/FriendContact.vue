@@ -46,7 +46,6 @@ export default {
       default: false,
     },
   },
-
   data() {
     return {
       detailsAreVisible : false,

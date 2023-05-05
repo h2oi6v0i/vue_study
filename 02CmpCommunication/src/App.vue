@@ -3,6 +3,9 @@
     <header>
       <h1>My Friends</h1>
     </header>
+    <new-friend 
+      @add-contact="addContact"  
+    />
     <ul>
       <!-- is-favorite="true" -->
       <!-- 이렇게 설정할 수 없다. 왜냐하면 저 자리엔 항상 텍스트가 와야 하기 때문이다. -->
@@ -17,12 +20,16 @@
         :is-favorite="friend.isFavorite"
         @toggle-favorite="toggleFavoriteStatus"
       />
+
     </ul> 
   </section>
 </template>
 
 <script>
+import NewFriend from './components/NewFriend.vue';
 export default {
+  components: { NewFriend },
+
   data() {
     return {
       friends: [
@@ -54,6 +61,18 @@ export default {
       const identifiedFriend = this.friends.find( ( friend ) => friend.id === friendId );
       console.log( identifiedFriend );
       identifiedFriend.isFavorite = !identifiedFriend.isFavorite;
+    },
+
+    addContact( name, phone, email ) {
+      // 기존의 데이터와 같은 구조로 만들기 하지만 : 뒤에 있는 이름은 같을 필요 없음
+      const newFriendContact = {
+        id: new Date().toISOString(), // Date를 ISOString(yyyy-mm-ddThh:mm:ss) 형식의 문자열로 변환해주는 함수
+        name: name,
+        phone: phone,
+        email: email,
+        isFavorite : false
+      }
+      this.friends.push( newFriendContact );
     }
   }
 };
@@ -85,7 +104,8 @@ header {
   padding: 0;
   list-style: none;
 }
-#app li {
+#app li,
+#app form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 1rem auto;
   border-radius: 10px;
@@ -114,5 +134,19 @@ header {
   background-color: #ec3169;
   border-color: #ec3169;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+
+#app input {
+  font: inherit;
+  padding: 0.15rem;
+}
+#app label {
+  font-weight: bold;
+  margin-right: 1rem;
+  width: 7rem;
+  display: inline-block;
+}
+#app form div {
+  margin: 1rem 0;
 }
 </style>
