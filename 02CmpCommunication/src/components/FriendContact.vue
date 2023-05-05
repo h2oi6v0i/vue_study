@@ -15,6 +15,7 @@
         {{ emailAddress }}
       </li>
     </ul>
+    <button @click="$emit( 'delete', id )">Delete</button>
   </li>
 </template>
 
@@ -46,6 +47,12 @@ export default {
       default: false,
     },
   },
+
+  emits: [ 
+    'toggle-favorite',
+    'delete' 
+  ],
+
   data() {
     return {
       detailsAreVisible : false,
@@ -69,6 +76,16 @@ export default {
     toggleFavorite() {
       this.$emit( 'toggle-favorite', this.id );
     },
+
+    /**
+    * friends 배열은 App.vue가 관리하기 때문에 친구 삭제 기능도 커스텀 이벤트 발생시켜야 한다.
+    * 친구를 삭제하려면 v-for로 렌더링되는 배열에서 제거해야 한다.
+    * 여기에서는 삭제 버튼을 클릭했단느 정보를 전다해주기만 하면 된다.
+    * 하단의 코드처럼 작성해도 되고 template에서 바로 작성해도 된다.
+    */
+    // deleteFriend() {
+    //   this.$emit( 'delete' );
+    // }
   },
 };
 </script>

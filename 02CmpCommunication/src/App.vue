@@ -3,9 +3,9 @@
     <header>
       <h1>My Friends</h1>
     </header>
-    <new-friend 
-      @add-contact="addContact"  
-    />
+
+    <new-friend @add-contact="addContact" />
+
     <ul>
       <!-- is-favorite="true" -->
       <!-- 이렇게 설정할 수 없다. 왜냐하면 저 자리엔 항상 텍스트가 와야 하기 때문이다. -->
@@ -19,17 +19,14 @@
         :email-address="friend.email"
         :is-favorite="friend.isFavorite"
         @toggle-favorite="toggleFavoriteStatus"
+        @delete="deleteContact"
       />
-
     </ul> 
   </section>
 </template>
 
 <script>
-import NewFriend from './components/NewFriend.vue';
 export default {
-  components: { NewFriend },
-
   data() {
     return {
       friends: [
@@ -59,7 +56,6 @@ export default {
      */
     toggleFavoriteStatus( friendId ) {
       const identifiedFriend = this.friends.find( ( friend ) => friend.id === friendId );
-      console.log( identifiedFriend );
       identifiedFriend.isFavorite = !identifiedFriend.isFavorite;
     },
 
@@ -73,6 +69,15 @@ export default {
         isFavorite : false
       }
       this.friends.push( newFriendContact );
+    },
+
+    deleteContact( friendId ) {
+      /**
+       * 어떤 연락처를 삭제할 건지 식별해야 한다.
+       * 일치하면 삭제해야 하기 때문에 일치하지 않는지 확인한다. -> id 일치하면 false 반환
+       * friendId가 일치하는 친구를 삭제한 새 friends 배열을 생성하고 해당 배열을 friends 데이터에 저장한다.
+       */
+      this.friends = this.friends.filter( ( friend ) => friend.id !== friendId );
     }
   }
 };
@@ -148,5 +153,8 @@ header {
 }
 #app form div {
   margin: 1rem 0;
+}
+button + button {
+  margin-left: 12px;
 }
 </style>
