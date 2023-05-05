@@ -1,27 +1,25 @@
 <template>
-	<section>
-		<h2>{{ userName }}</h2>
-		<h3>{{ userAge }} years</h3>
-	</section>
+  <!-- 연락처 목록 -->
+  <li>
+    <span>이름 : {{ friendName }}</span>
+    <span>나이 : {{ friendAge }}</span>
+  </li>
 </template>
 
 <script>
-
 export default {
 	props: {
-		userName: {
+		friendName: {
 			type: String,
 			required: true,
 		},
-		userAge: {
+		friendAge: {
 			type: Number,
-			required: true,
+			required: true
 		}
 	}
-}
-
+};
 </script>
 
 <style>
-
 </style>

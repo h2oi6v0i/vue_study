@@ -1,28 +1,27 @@
 <template>
-  <section>
-    <form @submit.prevent="submitData">
-      <input type="text" placeholder="Your name" v-model="enteredName" />
-      <input type="text" placeholder="Your age" v-model="enteredAge" />
-      <button>Set User Data</button>
-    </form>
-  </section>
+  <!-- 연락처 추가 input -->
+  <form @submit.prevent="submitData">
+    <input type="text" placeholder="이름을 입력하세요." v-model="enteredName" />
+    <input type="number" placeholder="나이를 입력하세요." v-model="enteredAge" />
+    <button>연락처 추가</button>
+  </form>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      enteredName: "",
-      enteredAge: "",
-    };
+      enteredName : '',
+      enteredAge  : 0,
+    }
   },
 
-  emits: [ "set-data" ],
+  emits: [ 'add-contact' ],
 
   methods: {
     submitData() {
-      this.$emit( "set-data", this.enteredName, this.enteredAge);
-    },
+      this.$emit( 'add-contact', this.enteredName, this.enteredAge );
+    }
   },
 };
 </script>

@@ -1,48 +1,78 @@
 <template>
-  <div>
-    <user-data @set-data="setUserData" />
-    <active-user :user-name="user.name" :user-age="user.age" />
-  </div>
+  <section>
+    <!-- 연락처 추가 input -->
+    <user-data 
+      @add-contact="addContact"
+      />
+
+    <ul>
+      <!-- 연락처 목록 -->
+      <active-user 
+        v-for="(friend, index) in friends" :key="index"
+        :friend-name="friend.name"
+        :friend-age="friend.age"
+      />
+    </ul>
+  </section>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      user: {
-        name: "Jeon Gary",
-        age: 14,
-      },
+      friends: [],
     };
   },
 
   methods: {
-    setUserData(name, age) {
-      this.user = {
+    addContact( name, age ) {
+      const newFriend = {
         name: name,
-        age: +age,
-      };
-    },
+        age: age
+      }
+      this.friends.push( newFriend )
+    }
   },
 };
 </script>
 
 <style>
-html {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 section {
-  max-width: 40rem;
-  padding: 1.6rem;
-  margin: 2rem auto;
-  border-radius: 12px;
-  border: 1px solid #ccc;
+  width: 400px;
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
 }
 
-h2,
-h3 {
-  margin: 0;
+li {
+  display: flex;
+  flex-direction: column;
+}
+
+li + li {
+  margin-top: 12px;
+}
+
+span + span {
+  margin-top: 8px;
 }
 </style>
