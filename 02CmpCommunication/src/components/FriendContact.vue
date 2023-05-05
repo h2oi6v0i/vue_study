@@ -1,6 +1,7 @@
 <template>
   <li>
-    <h2>{{ name }}</h2>
+    <h2>{{ name }} {{ friendIsFavorite === "1" ? "(Favorite)" : "" }}</h2>
+    <button @click="toggleFavorite">Toggle Favorite</button>
     <button @click="toggleDetails">
       {{ detailsAreVisible ? "Hide" : "Show" }} Details
     </button>
@@ -26,14 +27,40 @@ export default {
    * '카멜 케이스'로 정의된 프로퍼티를 Vue가 자동으로 해석해서 대시가 포함된 버전으로 바꿔준다.
    * 즉, HTML 코드에서는 프로퍼티에 '케밥 케이스'를 사용하는 반면 컴포넌트가 받는 프로퍼티를 정의할 때는 '카멜 케이스'를 사용한다.
    * props로 정의한 이름을 data나 computed에 쓸 수 없음
-   * 
+   *
    * - props는 불변한다.
    */
-  props: [
-    'name',
-    'phoneNumber',
-    'emailAddress'
-  ],
+  // props: [ 'name', 'phoneNumber', 'emailAddress', 'isFavorite' ],
+  props: {
+    name: {
+      type : String,
+      required : true,
+    },
+
+    phoneNumber : {
+      type : String,
+      required : true,
+    },
+
+    emailAddress : {
+      type : String,
+      required : true,
+    },
+
+    isFavorite : {
+      type : String,
+      required : false,
+      /**
+       * 필수가 아닌 프로퍼티가 있다면 default 키를 추가할 수 있다.
+       * 프로퍼티가 설정되지 않았을 때의 기본값을 제공한다. (함수도 넣을 수 있음)
+       * ex) 컴포넌트의 기본값은 isFavorite = '0'
+       */
+      default : '0',
+      validator : function( value ) {
+        return value === '1' || value === '0';
+      }
+    },
+  },
 
   data() {
     return {
@@ -44,12 +71,21 @@ export default {
         phone: "0123 45678 90",
         email: "manuel@localhost.com",
       },
+      friendIsFavorite: this.isFavorite,
     };
   },
 
   methods: {
     toggleDetails() {
       this.detailsAreVisible = !this.detailsAreVisible;
+    },
+
+    toggleFavorite() {
+      if (this.friendIsFavorite === "1") {
+        this.friendIsFavorite = "0";
+      } else {
+        this.friendIsFavorite = "1";
+      }
     },
   },
 };
