@@ -4,7 +4,7 @@
       :topic-title="activeTopic && activeTopic.title"
       :text="activeTopic && activeTopic.fullText"
     />
-    <knowledge-base @select-topic="activateTopic" />
+    <knowledge-base />
   </div>
 </template>
 
@@ -36,7 +36,13 @@ export default {
   provide() {
     return {
       /** 키는 자유 작명, this 사용해서 특정 인스턴스 데이터에 접근 */
-      topics: this.topics 
+      topics: this.topics,
+
+      /** 
+       * 여기에서 실행하는 것 X 정보 제공 O
+       * 'activateTopic 메서드가 selectTopic에 대한 값으로 제공해야 하는 함수야!'
+       */
+      selectTopic: this.activateTopic, 
     }
   },
 
