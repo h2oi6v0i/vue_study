@@ -4,7 +4,7 @@
       :topic-title="activeTopic && activeTopic.title"
       :text="activeTopic && activeTopic.fullText"
     />
-    <knowledge-base :topics="topics" @select-topic="activateTopic" />
+    <knowledge-base @select-topic="activateTopic" />
   </div>
 </template>
 
