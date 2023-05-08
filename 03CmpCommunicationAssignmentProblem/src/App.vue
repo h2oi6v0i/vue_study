@@ -1,9 +1,7 @@
 <template>
   <section>
     <!-- 연락처 추가 input -->
-    <user-data 
-      @add-contact="addContact"
-      />
+    <user-data @add-contact="addContact" />
 
     <ul>
       <!-- 연락처 목록 -->
