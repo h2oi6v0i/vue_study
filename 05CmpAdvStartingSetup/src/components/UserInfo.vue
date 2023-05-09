@@ -1,31 +1,20 @@
 <template>
   <section>
-    <div>
-      <h3>{{ fullName }}</h3>
-      <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
-    </div>
-    <p>{{ infoText }}</p>
+    <base-card>
+      <template #header>
+        <h3>{{ fullName }}</h3>
+        <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+      </template>
+      <!-- slot이 있는 템플릿 내부에 포함되지 않은 콘텐츠는 default에 안 넣어도 자동으로 기본 슬롯으로 이동한다. -->
+      <template #default>
+        <p>{{ infoText }}</p>
+      </template>
+    </base-card>
   </section>
 </template>
 
 <script>
 export default {
-  props: ['fullName', 'infoText', 'role'],
+  props: ["fullName", "infoText", "role"],
 };
 </script>
-
-<style>
-section {
-  margin: 2rem auto;
-  max-width: 30rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  padding: 1rem;
-}
-
-section div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-</style>
