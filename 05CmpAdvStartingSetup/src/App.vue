@@ -1,38 +1,27 @@
 <template>
   <div>
     <the-header></the-header>
-    <badge-list></badge-list>
-    <user-info
-      :full-name="activeUser.name"
-      :info-text="activeUser.description"
-      :role="activeUser.role"
-    >
-    </user-info>
-    <course-goals #default="slotProps">
-      <!-- slotProps의 값은 언제나 객체이며 작명은 내 맘! -->
-      <!-- slot이 하나일 때 template 빼서 컴포넌트 태그에 직접 넣을 수 있음 -->
-      <!-- <template #default="slotProps"> -->
-        <h2>{{ slotProps.item }}</h2>
-        <p>{{ slotProps }}</p>
-        <p>{{ slotProps[ 'anotherProps' ] }}</p>
-      <!-- </template> -->
-    </course-goals>
+    <button @click="setSelectedComponent('active-goals')">Active Goals</button>
+    <button @click="setSelectedComponent('manage-goals')">Manage Goals</button>
+    <!-- <active-goals v-if="selectedComponent === 'active-goals'"></active-goals> -->
+    <!-- <manage-goals v-if="selectedComponent === 'manage-goals'"></manage-goals> -->
+    <keep-alive>
+      <component :is="selectedComponent"></component>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import BadgeList from "./components/BadgeList.vue";
-import CourseGoals from './components/CourseGoals.vue';
+import ActiveGoals from "./components/ActiveGoals.vue";
+import ManageGoals from "./components/ManageGoals.vue";
 import TheHeader from "./components/TheHeader.vue";
-import UserInfo from "./components/UserInfo.vue";
 
 export default {
   /** 지역 컴포넌트 */
   components: {
     TheHeader,
-    BadgeList,
-    UserInfo,
-    CourseGoals,
+    ActiveGoals,
+    ManageGoals,
   },
 
   data() {
@@ -42,7 +31,16 @@ export default {
         description: "Site owner and admin",
         role: "admin",
       },
+
+      // active-goals로 초깃값 지정 (DOM에서 사용하는 HTMl 태그 이름 사용)
+      selectedComponent: "active-goals",
     };
+  },
+
+  methods: {
+    setSelectedComponent(cmp) {
+      this.selectedComponent = cmp;
+    },
   },
 };
 </script>
