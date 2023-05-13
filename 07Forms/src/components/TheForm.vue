@@ -96,6 +96,10 @@
       </div>
     </div>
     <div class="form-control">
+      <!-- 커스텀 폼을 내장 input처럼 사용하기 -->
+      <rating-control v-model="rating" />
+    </div>
+    <div class="form-control">
       <input
         type="checkbox"
         id="confirm-terms"
@@ -111,7 +115,13 @@
 </template>
 
 <script>
+import RatingControl from './RatingControl.vue';
+
 export default {
+  components: {
+    RatingControl
+  },
+
   data() {
     return {
       userName: '',
@@ -122,6 +132,7 @@ export default {
       interest: [],
       confirm: false,
       how: null,
+      rating: null,
       /** 유효성 여부 아직 모르기 때문에 초깃값 보류(pending) */
       userNameValidity: 'pending',
     };
@@ -130,28 +141,32 @@ export default {
   methods: {
     submitForm() {
       console.log('유저 이름:', this.userName);
-      this.userName = ''; /** 사용자가 입력한 값 리셋 */
+      this.userName = ''; /** 초기화 */
 
       console.log('유저 나이');
       console.log(this.userAge, typeof this.userAge);
       console.log(this.$refs.ageInput.value, typeof this.$refs.ageInput.value);
       console.log(typeof 31);
-      this.userAge = null; /** 사용자가 입력한 값 리셋 */
+      this.userAge = null; /** 초기화 */
 
       console.log('Referrer:', this.referrer);
-      this.referrer = 'wom'; /** 사용자가 입력한 값 리셋 */
+      this.referrer = 'wom'; /** 초기화 */
 
       console.log('Checkboxes');
       console.log(this.interest);
-      this.interest = []; /** 사용자가 입력한 값 리셋 */
+      this.interest = []; /** 초기화 */
 
       console.log('Radio buttons');
       console.log(this.how);
-      this.how = null; /** 사용자가 입력한 값 리셋 */
+      this.how = null; /** 초기화 */
 
       console.log('Confirm?');
       console.log(this.confirm);
-      this.confirm = false;
+      this.confirm = false; /** 초기화 */
+
+      console.log('Rating');
+      console.log(this.rating);
+      this.rating = null; /** 초기화 안 됨 (해결 방법은 RatingControl.vue로...)*/
     },
 
     /** 유효성 검사 */
