@@ -1,14 +1,19 @@
 <template>
-  <!-- 2. resources가 storedResources가 된다. -->
-  <stored-resources :resources="storedResources" />
+  <div>
+    <the-header title="RememberMe"></the-header>
+    <!-- 2. resources가 storedResources가 된다. -->
+    <stored-resources :resources="storedResources" />
+  </div>
 </template>
 
 <script>
+import TheHeader from './components/layouts/TheHeader.vue';
 import StoredResources from './components/learning-resources/StoredResources.vue';
 
 export default {
   components: {
     StoredResources,
+    TheHeader,
   },
 
   data() {
