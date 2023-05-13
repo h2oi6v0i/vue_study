@@ -18,8 +18,8 @@ export default {
         LearningResource 
     },
 
-    /** 1. 외부 데이터가 필요함을 Vue에게 알리기 (작명 내 맘) */
-    props: [ 'resources' ]
+    /** provide로 보내진 데이터 받기 */
+    inject: [ 'resources' ]
 };
 </script>
 

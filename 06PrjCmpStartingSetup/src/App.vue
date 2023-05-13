@@ -1,39 +1,18 @@
 <template>
   <div>
     <the-header title="RememberMe"></the-header>
-    <!-- 2. resources가 storedResources가 된다. -->
-    <stored-resources :resources="storedResources" />
+    <the-resources></the-resources>
   </div>
 </template>
 
 <script>
 import TheHeader from './components/layouts/TheHeader.vue';
-import StoredResources from './components/learning-resources/StoredResources.vue';
+import TheResources from './components/learning-resources/TheResources.vue';
 
 export default {
   components: {
-    StoredResources,
     TheHeader,
-  },
-
-  data() {
-    return {
-      storedResources: [
-        {
-          /** 키 추가하거나 리소스를 삭제하는 기능을 위해서도 ID가 필요함 */
-          id: 'official-guide',
-          title: 'Official Guide',
-          description: 'The official Vue.js documentation.',
-          link: 'https://vuejs.org',
-        },
-        {
-          id: 'google',
-          title: 'Google',
-          description: 'Learn to google...',
-          link: 'https://google.org',
-        },
-      ],
-    };
+    TheResources
   },
 };
 </script>
