@@ -1,14 +1,19 @@
 <template>
   <!-- 두 번째 -->
-  <button :type="type" :class="mode">
+  <button :class="mode">
     <slot></slot>
   </button>
 </template>
 
 <script>
 export default {
-  /** 첫 번째 */
-  props: ['type', 'mode'],
+  /**
+   * 첫 번째
+   * + type 지운 이유
+   *   - 폴스루 속성
+   *   - 자체적으로 추가하는 props만 사용하기
+   */
+  props: [ 'mode' ],
 };
 </script>
 
