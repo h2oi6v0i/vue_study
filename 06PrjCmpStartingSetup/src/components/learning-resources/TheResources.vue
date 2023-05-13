@@ -14,7 +14,10 @@
         >Add Resource</base-button
       >
     </base-card>
-    <component :is="selectedTab"></component>
+    <!-- 탭 왔다 갔다 해도 작성했던 것들 안 없어짐 -->
+    <keep-alive>
+      <component :is="selectedTab"></component>
+    </keep-alive>
   </div>
 </template>
 
@@ -53,6 +56,7 @@ export default {
   provide() {
     return {
       resources: this.storedResources,
+      addResource: this.addResource,
     };
   },
 
@@ -66,10 +70,26 @@ export default {
     },
   },
 
-  /** 탭 기능 구현 */
   methods: {
+    /** 탭 기능 구현 */
     setSelectedTab(tab) {
       this.selectedTab = tab;
+    },
+
+    /**
+     * AddResource.vue의 폼에 입력된 값 가져와서 전송하기
+     * 이 메소드가 트리거될 때마다 새로운 리소스를 생성하고 storedResources 배열에 추가한다.
+     * */
+    addResource(title, description, url) {
+      const newResource = {
+        /** 고유의 id가 필요하기 때문에 Date 객체를 인스턴스화해서 타임스탬프를 생성하고 toISOString()을 호출해서 문자열로 변환한다. */
+        id: new Date().toISOString(),
+        title: title,
+        description: description,
+        link: url,
+      };
+      this.storedResources.unshift(newResource);
+      this.selectedTab = 'stored-resources';
     },
   },
 };
