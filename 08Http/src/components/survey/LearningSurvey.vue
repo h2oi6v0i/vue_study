@@ -46,7 +46,9 @@ export default {
       invalidInput: false,
     };
   },
-  emits: ['survey-submit'],
+
+  // emits: ['survey-submit'],
+
   methods: {
     submitSurvey() {
       if (this.enteredName === '' || !this.chosenRating) {
@@ -55,10 +57,21 @@ export default {
       }
       this.invalidInput = false;
 
-      this.$emit('survey-submit', {
-        userName: this.enteredName,
-        rating: this.chosenRating,
-      });
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
+
+      /** fetch( 이 URL에서 데이터를 가져옴 , 요청을 구성할 수 있는 JS 객체 ) */
+      fetch( 'https://vue-http-demo-dae75-default-rtdb.firebaseio.com/surveys.json', {
+        method: 'POST',
+        /** Content-Type 헤더를 application/json으로 설정해서 JSON 형식의 일부 데이터가 요청에 추가된 걸 서버에 알린다. */
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        /** 과거에 발생시킨 값이 이 객체에 추가된다. 그리고 JS 객체를 JSON 형식으로 변환한다. */
+        body: JSON.stringify( { name: this.enteredName, rating: this.chosenRating } ),
+      } );
 
       this.enteredName = '';
       this.chosenRating = null;
