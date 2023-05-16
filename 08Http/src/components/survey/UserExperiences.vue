@@ -5,7 +5,8 @@
       <div>
         <base-button @click="loadExperiences">Load Submitted Experiences</base-button>
       </div>
-      <ul>
+      <p v-if="isLoading">Loading...</p>
+      <ul v-else>
         <survey-result
           v-for="result in results"
           :key="result.id"
@@ -28,11 +29,15 @@ export default {
   data() {
     return {
       results: [],
+      isLoading: '',
     };
   },
 
   methods: {
     loadExperiences() {
+      /** 로딩중... */
+      this.isLoading = true;
+
       fetch(
         'https://vue-http-demo-dae75-default-rtdb.firebaseio.com/surveys.json'
       )
@@ -42,6 +47,9 @@ export default {
           }
         })
         .then((data) => {
+          /** 로딩 완료! */
+          this.isLoading = false;
+
           // this.results = data; data는 id 프로퍼티로 이루어진 객체이기 때문에 이렇게 작업하면 안 됨
 
           /** 1. results라는 상수를 만든 뒤 빈 배열을 지정한다. */
@@ -63,6 +71,11 @@ export default {
         });
     },
   },
+
+  /** 컴포넌트가 화면에 표시될 때 데이터 로드되게 하기 */
+  mounted() {
+    this.loadExperiences();
+  }
 };
 </script>
 
