@@ -3,10 +3,15 @@
     <base-card>
       <h2>Submitted Experiences</h2>
       <div>
-        <base-button @click="loadExperiences">Load Submitted Experiences</base-button>
+        <base-button @click="loadExperiences"
+          >Load Submitted Experiences</base-button
+        >
       </div>
       <p v-if="isLoading">Loading...</p>
-      <ul v-else>
+      <p v-else-if="!isLoading && (!result || results.length === 0)">
+        No stored experiences found. Start adding some survey results first.
+      </p>
+      <ul v-else-if="!isLoading && results && results.length > 0">
         <survey-result
           v-for="result in results"
           :key="result.id"
@@ -20,6 +25,12 @@
 
 <script>
 import SurveyResult from './SurveyResult.vue';
+
+/**
+ * [ 데이터 없음 처리 ]
+ * 루프를 거칠 데이터가 없기 때문에 const results = [];의 results는 빈 배열로 남는다.
+ * 로딩 상태가 아니면서 results.length가 0보다 큰 데이터를 찾는다. -> 없어? -> 데이터 없음
+ */
 
 export default {
   components: {
@@ -75,7 +86,7 @@ export default {
   /** 컴포넌트가 화면에 표시될 때 데이터 로드되게 하기 */
   mounted() {
     this.loadExperiences();
-  }
+  },
 };
 </script>
 
