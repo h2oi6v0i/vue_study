@@ -8,10 +8,11 @@
         >
       </div>
       <p v-if="isLoading">Loading...</p>
-      <p v-else-if="!isLoading && (!result || results.length === 0)">
+      <p v-else-if="!isLoading && error">{{ error }}</p>
+      <p v-else-if="!isLoading && (!results || results.length === 0)">
         No stored experiences found. Start adding some survey results first.
       </p>
-      <ul v-else-if="!isLoading && results && results.length > 0">
+      <ul v-else>
         <survey-result
           v-for="result in results"
           :key="result.id"
@@ -26,12 +27,6 @@
 <script>
 import SurveyResult from './SurveyResult.vue';
 
-/**
- * [ 데이터 없음 처리 ]
- * 루프를 거칠 데이터가 없기 때문에 const results = [];의 results는 빈 배열로 남는다.
- * 로딩 상태가 아니면서 results.length가 0보다 큰 데이터를 찾는다. -> 없어? -> 데이터 없음
- */
-
 export default {
   components: {
     SurveyResult,
@@ -41,6 +36,7 @@ export default {
     return {
       results: [],
       isLoading: '',
+      error: null,
     };
   },
 
@@ -48,6 +44,8 @@ export default {
     loadExperiences() {
       /** 로딩중... */
       this.isLoading = true;
+      /** 새로운 요청을 전송할 때마다 isLoading을 true로 설정하는 것처럼 error도 리셋하기 */
+      this.error = null;
 
       fetch(
         'https://vue-http-demo-dae75-default-rtdb.firebaseio.com/surveys.json'
@@ -79,6 +77,11 @@ export default {
 
           /** 4. data()의 임시 results를 results와 같다고 설정한다. */
           this.results = results;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.isLoading = false;
+          this.error = 'Failed to fetch data - please try again later.';
         });
     },
   },
