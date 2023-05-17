@@ -1,4 +1,5 @@
 <template>
+  <button @click="confirmInput">Confirm</button>
   <ul>
     <user-item v-for="user in users" :key="user.id" :name="user.fullName" :role="user.role"></user-item>
   </ul>
@@ -11,7 +12,15 @@ export default {
   components: {
     UserItem,
   },
+
   inject: ['users'],
+
+  methods: {
+    /** 양식이 제출되면 사용자를 다른 곳으로 이동시킨다. */
+    confirmInput() {
+      this.$router.push('/teams');
+    }
+  }
 };
 </script>
 
