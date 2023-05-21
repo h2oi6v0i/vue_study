@@ -17,6 +17,25 @@ const store = createStore({
         increase( state, payload ) {
             state.counter += payload.value;
         }
+    },
+
+    getters: {
+        finalCounter( state ) {
+            return state.counter * 3;
+        },
+
+        /** 첫 번째 인수는 필요 없지만 두 번째 인수는 필요할 때 _ 사용 */
+        normalizedCounter(_, getters ) {
+            // const finalCounter = state.counter * 3;
+            const finalCounter = getters.finalCounter;
+            if ( finalCounter < 0 ) {
+                return 0;
+            } 
+            if ( finalCounter > 100 ) {
+                return 100;
+            }
+            return finalCounter;
+        }
     }
 });
 
