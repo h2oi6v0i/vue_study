@@ -1,18 +1,26 @@
 <template>
   <section class="container">
-    <h2>{{ userName }}</h2>
+    <h2>{{ user.name }}</h2>
+    <h3>{{ user.age }}</h3>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive, isReactive, isRef } from 'vue';
 
-const userName = ref('Gary');
+const user = reactive({
+  name : 'Gary',
+  age  : 14,
+});
 
-setTimeout(function () {
+setTimeout( function () {
   // uName = 'Yujung'; uName을 let으로 바꿔서 작업해도 안 됨 왜냐하면 ref를 덮어쓰기 때문에 반응성을 잃음
-  userName.value = 'My Hyuk';
-}, 2000);
+  user.name = 'Yujung';
+  user.age = 28;
+
+  console.log( isReactive( user ) );
+  console.log( isRef( user ) );
+}, 1000 );
 </script>
 
 <style>
